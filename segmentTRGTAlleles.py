@@ -286,6 +286,8 @@ def main ( argv ):
                            dtype={'CHROM':str,'POS':int,'ID':str,'REF':str,'ALT':str,'QUAL':str,'FILTER':str,'INFO':str,'FORMAT':str,'SAMPLE':str})
     sample[['TRID','END','MOTIFS','STRUC']]=sample.loc[:,'INFO'].str.split(';',expand=True)
     sample['TRID']=sample.loc[:,'TRID'].str[5:]
+    # only evaluate the FGF14-SCA27B locus
+    sample=sample.loc[sample['TRID']=='chr13_102161544_102161756',:].reset_index(drop=True)
     sample['END']=sample.loc[:,'END'].str[4:]
     sample['MOTIFS']=sample.loc[:,'MOTIFS'].str[7:]
     sample['MOTIFS']=sample.loc[:,'MOTIFS'].str.split(',',expand=False) # make MOTIFS a list within each cell
@@ -334,7 +336,7 @@ def main ( argv ):
     endtime=time.time()
     print('Encode sequence: ' + str(endtime-starttime) + ' seconds')
 
-    melted.to_csv(SAMPLE + '_meltedWithMotifInfo.txt',sep='\t',index=False)
+    melted.to_csv(SAMPLE + '_FGF14_meltedWithMotifInfo.txt',sep='\t',index=False)
     return
 
 if __name__ == "__main__":
